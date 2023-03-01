@@ -1,3 +1,74 @@
+/* Гамбургер и адаптивное меню */
+
+window.addEventListener('DOMContentLoaded', () => {
+  const menu = document.querySelector('.menu__list'),
+  menuItem = document.querySelectorAll('.menu__item'),
+  hamburger = document.querySelector('.hamburger');
+
+  hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('hamburger_active');
+      menu.classList.toggle('menu__list_active');
+  });
+
+  menuItem.forEach(item => {
+      item.addEventListener('click', () => {
+          hamburger.classList.toggle('hamburger_active');
+          menu.classList.toggle('menu__list_active');
+      })
+  })
+})
+
+
+/* Попап */
+
+let popupBg = document.querySelector('.popup__bg'); // Фон попап окна
+let popup = document.querySelector('.popup'); // Само окно
+let openPopupButtons = document.querySelectorAll('.open-popup'); // Кнопки для показа окна
+let closePopupButton = document.querySelector('.close-popup'); // Кнопка для скрытия окна
+
+openPopupButtons.forEach((button) => { // Перебираем все кнопки
+  button.addEventListener('click', (e) => { // Для каждой вешаем обработчик событий на клик
+      e.preventDefault(); // Предотвращаем дефолтное поведение браузера
+      popupBg.classList.add('active'); // Добавляем класс 'active' для фона
+      popup.classList.add('active'); // И для самого окна
+  })
+});
+
+closePopupButton.addEventListener('click',() => { // Вешаем обработчик на крестик
+  popupBg.classList.remove('active'); // Убираем активный класс с фона
+  popup.classList.remove('active'); // И с окна
+});
+
+document.addEventListener('click', (e) => { // Вешаем обработчик на весь документ
+  if(e.target === popupBg) { // Если цель клика - фот, то:
+      popupBg.classList.remove('active'); // Убираем активный класс с фона
+      popup.classList.remove('active'); // И с окна
+  }
+});
+
+
+/* accordion */
+
+const boxes = Array.from(document.querySelectorAll(".accordion__box")); // считываем все элементы аккордеона в массив
+
+boxes.forEach((box) => {
+  box.addEventListener("click", boxHandler); // при нажатии на бокс вызываем ф-ию boxHanlder
+});
+
+function boxHandler(e) {
+  e.preventDefault(); // сбрасываем стандартное поведение
+  let currentBox = e.target.closest(".accordion__box"); // определяем текущий бокс
+  let currentContent = e.target.nextElementSibling; // находим скрытый контент
+  currentBox.classList.toggle("active"); // присваиваем ему активный класс
+  if (currentBox.classList.contains("active")) {
+    // если класс активный ..
+    currentContent.style.maxHeight = currentContent.scrollHeight + "px"; // открываем контент
+  } else {
+    // в противном случае
+    currentContent.style.maxHeight = 0; // скрываем контент
+  }
+}
+
 
 
 //SLick-slider где при нажатии на конкретную кнопку выходит конкретный слайд!!!! Крутая вещь!!
@@ -24,41 +95,6 @@
     slidesToShow: 1,
     slidesToScroll: 1,
   }); */
-
-
-
-//аккордеон
-
-/* var acc = document.getElementsByClassName("accordion");
-var i;
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.maxHeight){
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    } 
-  });
-}
- */
-
-
-
-
-
-
-/* popap */
-
-/* $('[data-modal=order]').on('click', function() {
-    $('.overlay, #order').fadeIn(400);
-  });
-  $('.modal__close').on('click', function() {
-    $('.overlay, #order').fadeOut(400);
-  }); */
-  
-
 
 
 
@@ -120,15 +156,3 @@ for (i = 0; i < acc.length; i++) {
     return false;
   }); */
   
-  
-  
-
-
-
-  // мой скрипт для возврата на блок с определенным id и определенным классом
-  // здесь data-modal=back - дата-атрибут кнопки(присвоили в HTML), при нажатии которой будет возврат на страницу
-  // .overlay, #backup - класс блока и id блока с которого мы уходим
-  /* 
-  $('[data-modal=back]').on('click', function() {
-    $('.overlay, #backup').fadeOut(400);
-  }); */
